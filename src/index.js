@@ -1,15 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react"
+import ReactDOM from "react-dom"
+import "./styles/index.css"
+import App from "./components/App"
+import registerServiceWorker from "./registerServiceWorker"
 
-import { ApolloProvider } from 'react-apollo'
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import { ApolloProvider } from "react-apollo"
+import { ApolloClient } from "apollo-client"
+import { HttpLink } from "apollo-link-http"
+import { InMemoryCache } from "apollo-cache-inmemory"
 
-const httpLink = new HttpLink({ uri: 'https://graphcool-eu1.graphcool.cloud/public-brassreaper-bolt-861996/hackernews-node-02/dev' })
+const httpLink = new HttpLink({
+  uri:
+    "https://graphcool-eu1.graphcool.cloud/public-brassreaper-bolt-861996/hackernews-node-02/dev"
+})
 
 const client = new ApolloClient({
   link: httpLink,
@@ -17,9 +20,9 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-    , document.getElementById('root')
-    
-registerServiceWorker();
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById("root")
+)
+registerServiceWorker()
