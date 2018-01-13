@@ -10,8 +10,7 @@ import { HttpLink } from "apollo-link-http"
 import { InMemoryCache } from "apollo-cache-inmemory"
 
 const httpLink = new HttpLink({
-  uri:
-    "https://graphcool-eu1.graphcool.cloud/public-brassreaper-bolt-861996/hackernews-node-02/dev"
+  uri: "http://localhost:4000"
 })
 
 const client = new ApolloClient({

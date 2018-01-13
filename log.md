@@ -17,7 +17,7 @@
 - yarn start
 - create Link elements in Graphcool database
 
-### Problem: 
+### Problem 1 (fixed): 
 
 ![Network Error](https://image.ibb.co/efUhE6/Playground_Network_Error.png)
 
@@ -68,3 +68,31 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 ` ▸    Creating network "localdatabase_graphcool" with driver "bridge"`
 
 ` ▸    could not find an available, non-overlapping IPv4 address pool among the defaults to assign to the network`
+
+
+### Solution 1: 
+
+- remove `cluster: local` from graphcool.yml
+- install graphcool 1.0 with `npm install -g graphcool@beta`
+
+### Problem 2:
+
+- added the graphcool endpoint as httpLink uri in index.js
+- added Link & LinkList Components
+
+`GraphQL error: Your token is invalid. It might have expired or you might be using a token from a different project.`
+
+### Solution 2:
+
+- change endpoint in index.js on the server
+- change httpLink uri in app index.js back to "http://localhost:4000"
+
+### Typos:
+
+- Chapter Mutations: awrite the mutation as a JSava riptconstant using the gql parser functiont the start:
+
+    `write the mutation as a JSava riptconstant using the gql parser function`
+
+### Additonal Notes:
+
+- Chapter Mutations: Can't actually create a new Link - Not authenticated
