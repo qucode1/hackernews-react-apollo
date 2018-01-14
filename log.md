@@ -87,6 +87,15 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 - change endpoint in index.js on the server
 - change httpLink uri in app index.js back to "http://localhost:4000"
 
+### Problem 3:
+
+- added CreateLink Comp
+- getting an 'not authenticated error' when trying to add a new Link (app & playground)
+
+### Solution 3:
+
+- WIP
+
 ### Typos:
 
 - Chapter Mutations: awrite the mutation as a JSava riptconstant using the gql parser functiont the start:
@@ -94,5 +103,3 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
     `write the mutation as a JSava riptconstant using the gql parser function`
 
 ### Additonal Notes:
-
-- Chapter Mutations: Can't actually create a new Link - Not authenticated
