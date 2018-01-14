@@ -92,9 +92,12 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 - added CreateLink Comp
 - getting an 'not authenticated error' when trying to add a new Link (app & playground)
 
-### Solution 3:
+### Solution 3 (WIP):
 
-- WIP
+- Continue until Auth Chapter
+- then after login the error changes to
+
+`JsonWebTokenError: jwt malformed`
 
 ### Typos:
 
