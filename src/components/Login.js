@@ -63,8 +63,8 @@ class Login extends Component {
           password
         }
       })
-      const { user, token } = result.data.login
-      this._saveUserData(user.id, token)
+      const { token } = result.data.login
+      this._saveUserData(token)
     } else {
       const result = await this.props.signupMutation({
         variables: {
@@ -73,8 +73,8 @@ class Login extends Component {
           password
         }
       })
-      const { user, token } = result.data.signup
-      this._saveUserData(user.id, token)
+      const { token } = result.data.signup
+      this._saveUserData(token)
     }
     this.props.history.push(`/`)
   }

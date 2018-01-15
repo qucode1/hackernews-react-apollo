@@ -75,7 +75,7 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 - remove `cluster: local` from graphcool.yml
 - install graphcool 1.0 with `npm install -g graphcool@beta`
 
-### Problem 2:
+### Problem 2 (fixed):
 
 - added the graphcool endpoint as httpLink uri in index.js
 - added Link & LinkList Components
@@ -87,17 +87,33 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 - change endpoint in index.js on the server
 - change httpLink uri in app index.js back to "http://localhost:4000"
 
-### Problem 3:
+### Problem 3 (fixed):
 
 - added CreateLink Comp
 - getting an 'not authenticated error' when trying to add a new Link (app & playground)
 
-### Solution 3 (WIP):
+### Solution 3:
 
 - Continue until Auth Chapter
 - then after login the error changes to
 
 `JsonWebTokenError: jwt malformed`
+
+- in Login.js user.id was passed to _saveUserData as the first arg instead of token
+
+### Problem 4:
+
+- store update query is not working, after completing ch.6
+- voting for a post or submitting a post will result in the following error:
+
+    `Error: Can't find field feed({}) on object (ROOT_QUERY) {`
+    `  "feed({\"first\":null,\"skip\":null,\"orderBy\":null})": {`
+    `    "type": "id",`
+    `    "id": "$ROOT_QUERY.feed({\"first\":null,\"skip\":null,\"orderBy\":null})",`
+    `    "generated": true`
+    `  }`
+    `}.`
+
 
 ### Typos:
 
@@ -106,3 +122,7 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
     `write the mutation as a JSava riptconstant using the gql parser function`
 
 ### Additonal Notes:
+
+- quiz at authentication chapter wrong answer?
+- chapter 6: code for Link.js is all kinds of broken
+- chapter 6: better error handling (e.g. already voted for a link or simply do not disply vote btn)

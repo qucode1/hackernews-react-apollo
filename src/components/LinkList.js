@@ -9,36 +9,52 @@ class LinkList extends Component {
       return <div>Loading...</div>
     }
     if (this.props.feedQuery && this.props.feedQuery.error) {
-      console.log(this.props.feedQuery.error.message)
-      return <div>Error</div>
+      return <div>{this.props.feedQuery.error.message}</div>
     }
 
     const linksToRender = this.props.feedQuery.feed.links
-    //   {
-    //     id: "1",
-    //     description: "The coolest GraphQL backend 😎",
-    //     url: "https://www.graph.cool"
-    //   },
-    //   {
-    //     id: "2",
-    //     description: "The best GraphQL Client",
-    //     url: "http://dev.apollodata.com/"
-    //   }
 
     return (
-      <div>{linksToRender.map(link => <Link key={link.id} link={link} />)}</div>
+      <div>
+        {linksToRender.map((link, index) => (
+          <Link
+            key={link.id}
+            updateStoreAfterVote={this._updateCacheAfterVote}
+            index={index}
+            link={link}
+          />
+        ))}
+      </div>
     )
+  }
+  _updateCacheAfterVote = (store, createVote, linkId) => {
+    const data = store.readQuery({ query: FEED_QUERY })
+
+    const votedLink = data.feed.links.find(link => link.id === linkId)
+    votedLink.votes = createVote.link.votes
+
+    store.writeQuery({ query: FEED_QUERY, data })
   }
 }
 
-const FEED_QUERY = gql`
-  query FeedQuery {
-    feed {
+export const FEED_QUERY = gql`
+  query FeedQuery($first: Int, $skip: Int, $orderBy: LinkOrderByInput) {
+    feed(first: $first, skip: $skip, orderBy: $orderBy) {
       links {
         id
         createdAt
         url
         description
+        postedBy {
+          id
+          name
+        }
+        votes {
+          id
+          user {
+            id
+          }
+        }
       }
     }
   }
