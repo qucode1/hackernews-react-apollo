@@ -104,7 +104,7 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 
 </details>
 
-### Problem 4:
+### Problem 4 (WIP):
 <details><summary>Problem 4: store updates not working, feed not found on ROOT_QUERY</summary>
 
 
@@ -119,10 +119,14 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
     `  }`
     `}.`
 
+- conneted to this issue? https://github.com/apollographql/apollo-client/issues/2051
+
 </details>
 <details><summary>Solution 4: ...</summary>
 
 ### Solution 4:
+
+- add initial values to query variables to prevent NULL and thus the error according to the github issue
 
 </details>
 
@@ -199,7 +203,7 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 </details>
 
 ### Problem 7: 
-<details><summary>Problem 7: Subscriptions not working</<summary>
+<details><summary>Problem 7: Subscriptions not working</summary>
 
 - there is a websocket connection in the devtools' network tab
 

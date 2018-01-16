@@ -41,12 +41,26 @@ class CreateLink extends Component {
         url
       },
       update: (store, { data: { post } }) => {
-        const data = store.readQuery({ query: FEED_QUERY })
-        data.feed.links.splice(0, 0, post)
+        const data = store.readQuery({
+          query: FEED_QUERY,
+          variables: { first: 0, skip: 0, orderBy: "createdAt_ASC" }
+        })
+        post.votes = []
+        post.postedBy = {
+          id: -1,
+          name: "Unknown"
+        }
+        data.feed.links.push(post)
         store.writeQuery({
           query: FEED_QUERY,
+          variables: {
+            first: 0,
+            skip: 0,
+            orderBy: "createdAt_ASC"
+          },
           data
         })
+        // console.log(data)
       }
     })
     // console.log(result)

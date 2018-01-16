@@ -32,7 +32,10 @@ class LinkList extends Component {
     )
   }
   _updateCacheAfterVote = (store, createVote, linkId) => {
-    const data = store.readQuery({ query: FEED_QUERY })
+    const data = store.readQuery({
+      query: FEED_QUERY,
+      variables: { first: 0, skip: 0, orderBy: "createdAt_ASC" }
+    })
 
     const votedLink = data.feed.links.find(link => link.id === linkId)
     votedLink.votes = createVote.link.votes
@@ -113,10 +116,10 @@ class LinkList extends Component {
         const votedLinkIndex = previous.feed.links.findIndex(
           link => link.id === subscriptionData.data.newVote.node.link.id
         )
-        const newAllLinks = previous.feed.links.slice()
+        previous.feed.links[votedLinkIndex] =
+          subscriptionData.data.newVote.node.link
         const result = {
-          ...previous,
-          allLinks: newAllLinks
+          ...previous
         }
         return result
       }
@@ -147,4 +150,14 @@ export const FEED_QUERY = gql`
   }
 `
 
-export default graphql(FEED_QUERY, { name: "feedQuery" })(LinkList)
+export default graphql(FEED_QUERY, {
+  name: "feedQuery",
+  options: ownProps => {
+    const first = ownProps.first || 0
+    const skip = ownProps.skip || 0
+    const orderBy = ownProps.orderBy || "createdAt_ASC"
+    return {
+      variables: { first, skip, orderBy }
+    }
+  }
+})(LinkList)
