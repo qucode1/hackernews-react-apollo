@@ -13,14 +13,15 @@ class Link extends Component {
           <span className="gray">
             {this.props.index + 1}.{" "}
             {authToken && (
-              <span className="f11" onClick={this._voteForLink}>
+              <span className="f11 voteBtn" onClick={this._voteForLink}>
                 {" "}
                 ▲{" "}
               </span>
             )}
           </span>
           <span className="">
-            {this.props.link.description} ({this.props.link.url})
+            {this.props.link.description}{" "}
+            <span className="f11">({this.props.link.url})</span>
           </span>
         </div>
         <div className="gray f11">

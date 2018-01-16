@@ -41,3 +41,15 @@ input {
   cursor: pointer;
   max-width: 250px;
 }
+
+.voteBtn {
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid #828282;
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 0 5px;
+  line-height: 100%;
+}
