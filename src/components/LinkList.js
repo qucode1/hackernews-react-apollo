@@ -40,7 +40,18 @@ class LinkList extends Component {
     const votedLink = data.feed.links.find(link => link.id === linkId)
     votedLink.votes = createVote.link.votes
 
-    store.writeQuery({ query: FEED_QUERY, data })
+    store.writeQuery({
+      query: FEED_QUERY,
+      options: ownProps => {
+        const first = ownProps.first || 0
+        const skip = ownProps.skip || 0
+        const orderBy = ownProps.orderBy || "createdAt_ASC"
+        return {
+          variables: { first, skip, orderBy }
+        }
+      },
+      data
+    })
   }
   _subscribeToNewLinks = () => {
     this.props.feedQuery.subscribeToMore({
@@ -116,10 +127,11 @@ class LinkList extends Component {
         const votedLinkIndex = previous.feed.links.findIndex(
           link => link.id === subscriptionData.data.newVote.node.link.id
         )
-        previous.feed.links[votedLinkIndex] =
-          subscriptionData.data.newVote.node.link
+        const newAllLinks = previous.feed.links.slice()
+        newAllLinks[votedLinkIndex] = subscriptionData.data.newVote.node.link
         const result = {
-          ...previous
+          ...previous,
+          newAllLinks
         }
         return result
       }

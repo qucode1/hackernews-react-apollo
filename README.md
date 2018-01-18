@@ -122,11 +122,60 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 - conneted to this issue? https://github.com/apollographql/apollo-client/issues/2051
 
 </details>
-<details><summary>Solution 4: ...</summary>
+<details><summary>Solution 4: add initial query vars</summary>
 
 ### Solution 4:
 
 - add initial values to query variables to prevent NULL and thus the error according to the github issue
+- the create Link function in CreateLink.js should look like this:
+```javascript
+  _createLink = async () => {
+    const { description, url } = this.state
+    await this.props.postMutation({
+      variables: {
+        description,
+        url
+      },
+      update: (store, { data: { post } }) => {
+        const data = store.readQuery({
+          query: FEED_QUERY,
+          variables: { first: 0, skip: 0, orderBy: "description_DESC" }
+        })
+        post.votes = []
+        post.postedBy = {
+          id: -1,
+          name: "Unknown",
+          __typename: "User"
+        }
+        data.feed.links.push(post)
+        store.writeQuery({
+          query: FEED_QUERY,
+          variables: {
+            first: 0,
+            skip: 0,
+            orderBy: "createdAt_ASC"
+          },
+          data
+        })
+      }
+    })
+    this.props.history.push("/")
+  }
+```
+- updateCaacheAfterVote func in LinkList.js should look like this
+```javascript
+_updateCacheAfterVote = (store, createVote, linkId) => {
+    const data = store.readQuery({
+      query: FEED_QUERY,
+      variables: { first: 0, skip: 0, orderBy: "createdAt_ASC" }
+    })
+
+    const votedLink = data.feed.links.find(link => link.id === linkId)
+    votedLink.votes = createVote.link.votes
+
+    store.writeQuery({ query: FEED_QUERY, data })
+  }
+```
 
 </details>
 
@@ -220,32 +269,35 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 ### Additonal Notes:
 
 - quiz at authentication chapter wrong answer?
-- chapter 6: code for Link.js is all kinds of broken, it should be similar to this:
+- chapter 6: code for Link.js is all kinds of broken (it's actually working in github, but not displayed correctly in the browser):
 ```javascript
+render() {
+    const authToken = localStorage.getItem(AUTH_TOKEN)
     return (
-      <div>
-        <div>
-          <span className="gray">
-            {this.props.index + 1}.{" "}
-            {authToken && (
-              <span className="f11 voteBtn" onClick={this._voteForLink}>
-                {" "}
-                ▲{" "}
-              </span>
-            )}
-          </span>
-          <span className="">
-            {this.props.link.description}{" "}
-            <span className="f11">({this.props.link.url})</span>
-          </span>
-        </div>
-        <div className="gray f11">
-          {this.props.link.votes.length} votes | by{" "}
-          {this.props.link.postedBy ? this.props.link.postedBy.name : "Unknown"}{" "}
-          {timeDifferenceForDate(this.props.link.createdAt)}
-        </div>
-      </div>
+        
+
+        
+
+            {this.props.index + 1}.
+            {authToken && 
+    this._voteForLink()}>▲
+    }
+        
+
+        
+
+            
+    {this.props.link.description} ({this.props.link.url})
+
+            
+    {this.props.link.votes.length} votes | by {this.props.link.postedBy ? this.props.link.postedBy.name : 'Unknown'} {timeDifferenceForDate(this.props.link.createdAt)}
+
+        
+
+        
+
     )
+}
 ```
 - better error handling (e.g. already voted for a link or simply do not disply vote btn)
 - 'new link resolver' server console.log whenever the LinkList is loaded (even when logged in) which leads to:

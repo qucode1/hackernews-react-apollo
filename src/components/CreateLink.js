@@ -48,7 +48,8 @@ class CreateLink extends Component {
         post.votes = []
         post.postedBy = {
           id: -1,
-          name: "Unknown"
+          name: "Unknown",
+          __typename: "User"
         }
         data.feed.links.push(post)
         store.writeQuery({
@@ -60,10 +61,8 @@ class CreateLink extends Component {
           },
           data
         })
-        // console.log(data)
       }
     })
-    // console.log(result)
     this.props.history.push("/")
   }
 }
