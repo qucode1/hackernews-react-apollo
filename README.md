@@ -139,7 +139,7 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
       update: (store, { data: { post } }) => {
         const data = store.readQuery({
           query: FEED_QUERY,
-          variables: { first: 0, skip: 0, orderBy: "description_DESC" }
+          variables: { first: 0, skip: 0, orderBy: "createdAt_ASC" }
         })
         post.votes = []
         post.postedBy = {
@@ -173,8 +173,19 @@ _updateCacheAfterVote = (store, createVote, linkId) => {
     const votedLink = data.feed.links.find(link => link.id === linkId)
     votedLink.votes = createVote.link.votes
 
-    store.writeQuery({ query: FEED_QUERY, data })
-  }
+    store.writeQuery({
+      query: FEED_QUERY,
+      options: ownProps => {
+        const first = ownProps.first || 0
+        const skip = ownProps.skip || 0
+        const orderBy = ownProps.orderBy || "createdAt_ASC"
+        return {
+          variables: { first, skip, orderBy }
+        }
+      },
+      data
+    })
+}
 ```
 
 </details>
@@ -193,6 +204,8 @@ _updateCacheAfterVote = (store, createVote, linkId) => {
 
 ### Solution 5:
 
+- NOTE: Seems like it's enough to install subscriptions-transport-ws without the changes in code
+
 - https://www.apollographql.com/docs/link/links/ws.html
 - yarn add subscriptions-transport-ws
 - index.js: 
@@ -204,7 +217,7 @@ _updateCacheAfterVote = (store, createVote, linkId) => {
         options: {
             reconnect: true,
             connectionParams: {
-            authToken: localStorage.getItem(GC_AUTH_TOKEN),
+            authToken: localStorage.getItem(AUTH_TOKEN),
             }
         }
     })
@@ -228,7 +241,7 @@ _updateCacheAfterVote = (store, createVote, linkId) => {
 
 
 - every once in a while there is a SyntaxError on the server, even the playground will give the same error then on the default FeedQuery
-- possibly connected to problem 4, seems to be more frequent after getting that error
+- possibly connected to rebuild after changing code in dev mode
 - weirdly seems to fix itself after a certan amount of time
 
     ```javascript
