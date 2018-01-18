@@ -19,7 +19,7 @@ class Search extends Component {
             type="text"
             onChange={e => this.setState({ filter: e.target.value })}
           />
-          <button onClick={() => this._executeSearch}>Ok</button>
+          <button onClick={() => this._executeSearch()}>Ok</button>
         </div>
         {this.state.links.map((link, index) => (
           <Link key={link.id} link={link} index={index} />

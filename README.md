@@ -78,8 +78,7 @@ Yet another error (it's trying to deploy locally for some reason and does not gi
 
 ### Solution 2:
 
-- change endpoint in index.js on the server to hosted graphcool url 
-- change httpLink uri in app index.js back to "http://localhost:4000"
+- change endpoint in index.js on the server to hosted graphcool url
 
 </details>
 
@@ -279,6 +278,15 @@ _updateCacheAfterVote = (store, createVote, linkId) => {
 
     `write the mutation as a JSava riptconstant using the gql parser function`
 
+- ch.5: logout redirect in Header.js should go to root ('/')
+```js
+this.props.history.push(`/new/1`)
+```
+
+- ch.8: wrong key for authToken in index.js (should be "AUTH_TOKEN")
+```js
+authToken: localStorage.getItem(GC_AUTH_TOKEN)
+```
 ### Additonal Notes:
 
 - quiz at authentication chapter wrong answer?
